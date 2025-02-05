@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conversor de Monedas</title>
+  <style>
+    /* Estilos CSS para una mejor presentación */
+    body {
+      background: #f0f0f0;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      width: 320px;
+      margin: 50px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+    .converter input,
+    .converter select,
+    .converter button {
+      margin: 10px 0;
+      padding: 10px;
+      font-size: 1em;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    .converter button {
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .converter button:hover {
+      background-color: #45a049;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 1.2em;
+      font-weight: bold;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Conversor de Monedas</h1>
+    <div class="converter">
+      <input type="number" id="amount" placeholder="Cantidad" />
+      <select id="fromCurrency">
+         <option value="USD">USD</option>
+         <option value="EUR">EUR</option>
+         <option value="ARS">ARS</option>
+      </select>
+      <span> a </span>
+      <select id="toCurrency">
+         <option value="USD">USD</option>
+         <option value="EUR">EUR</option>
+         <option value="ARS">ARS</option>
+      </select>
+      <button id="convertBtn">Convertir</button>
+    </div>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    // Tasas de conversión respecto al dólar (USD)
+    // 1 unidad de cada moneda equivale a:
+    // USD: 1 USD, EUR: 1.1 USD (1 EUR = 1.1 USD), ARS: 0.005 USD (1 ARS = 0.005 USD)
+    const rates = {
+      "USD": 1,
+      "EUR": 1.1,
+      "ARS": 0.005
+    };
+
+    document.getElementById('convertBtn').addEventListener('click', function() {
+      const amount = parseFloat(document.getElementById('amount').value);
+      const fromCurrency = document.getElementById('fromCurrency').value;
+      const toCurrency = document.getElementById('toCurrency').value;
+      
+      if (isNaN(amount)) {
+        document.getElementById('result').innerText = "Por favor, ingrese una cantidad válida";
+        return;
+      }
+      
+      // Conversión: Primero se convierte la cantidad a USD y luego a la moneda destino.
+      const amountInUSD = amount * rates[fromCurrency];
+      const convertedAmount = amountInUSD / rates[toCurrency];
+      
+      document.getElementById('result').innerText = `${amount} ${fromCurrency} = ${convertedAmount.toFixed(2)} ${toCurrency}`;
+    });
+  </script>
+</body>
+</html>
